@@ -11,16 +11,13 @@ def play_avengers_ai():
     print("--- AVENGERS: AI EDITION ---")
     context = "You are the narrator of a game. The player is Iron Man fighting Thanos."
     
-    # We keep a history so the AI remembers what happened in Step 1, 2, etc.
     messages = [{"role": "system", "content": context}]
 
-    for step in range(1, 6): # 5 Steps to win
+    for step in range(1, 6):
         user_action = input(f"Step {step}: What do you do? ")
         
-        # Add player's action to the conversation
         messages.append({"role": "user", "content": user_action})
 
-        # Ask the AI to continue the story
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=messages + [{"role": "system", "content": "Describe the result in 2 sentences. If the player dies, include 'GAME OVER'. If they win step 5, say 'YOU WIN'."}],
