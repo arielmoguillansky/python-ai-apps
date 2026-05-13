@@ -17,6 +17,13 @@ class Snake:
     def get_tail_position(self):
         return self.segments[len(self.segments) -1].position()
 
+    def reset(self):
+        for segment in self.segments:
+            segment.goto(1000,1000)
+        self.segments.clear()
+        self.create_snake()
+        self.head = self.segments[0]
+
     def add_segment(self):
         new_segment = Turtle(shape="square")
         new_segment.color("white")
