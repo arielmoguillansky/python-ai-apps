@@ -12,11 +12,16 @@ FONT_NAME = "Modern"
 WORK_MIN = 1
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
-reps=0
-
+reps = 0
+timer = None
 # ---------------------------- TIMER RESET ------------------------------- # 
+def reset_timer():
+    window.after_cancel(timer)
+    canvas.itemconfig(timer_text, text="00:00")
+    global reps
+    reps = 0
 
-# ---------------------------- TIMER MECHANISM ------------------------------- # 
+# ---------------------------- TIMER MECHANISM ------------------------------- #
 def start_timer():
     global reps
     reps += 1
@@ -49,7 +54,8 @@ def countdown(count):
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
 
     if count > 0:
-        window.after(1000, countdown, count -1)
+        global timer
+        timer = window.after(1000, countdown, count -1)
     else:
         start_timer()
 
@@ -93,7 +99,7 @@ short_break_label = Label(text="Short Break", background=BG_RED, font=(FONT_NAME
 long_break_label = Label(text="Long Break", background=BG_RED, font=(FONT_NAME, 14), width=20, fg="white")
 
 start_button = Button(text="START", highlightthickness=0, background="white", fg=BG_RED, font=(FONT_NAME, 14, "bold"),  width=10, borderwidth=0, cursor="hand2", relief="flat", command=start_timer)
-reset_button = Button(text="RESET", highlightthickness=0, background="white", fg=BG_RED, font=(FONT_NAME, 14, "bold"), width=10, borderwidth=0, cursor="hand2", relief="flat")
+reset_button = Button(text="RESET", highlightthickness=0, background="white", fg=BG_RED, font=(FONT_NAME, 14, "bold"), width=10, borderwidth=0, cursor="hand2", relief="flat", command=reset_timer)
 
 start_button.grid(row=2, column=1, pady=10)
 reset_button.grid(row=3, column=1)
